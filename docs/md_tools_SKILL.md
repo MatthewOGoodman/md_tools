@@ -248,7 +248,7 @@ md_tools extract STATUS.md "1. Prioritization" goal.md --keep-sections "Goal"
 
 **On PATH:** `md_tools` is the console script `pip install` writes into the environment's `bin/`, so it resolves by name. **ALWAYS use the short command** (`md_tools`) — NEVER a full path to the script.
 
-**Automatic backups:** Destructive operations (`extract`, `delete`, `reshape`, `move`, `subst`, `gsub`, `body-line-append`, `rename`, `convert`, and `copy`/`extract` when they **overwrite an existing output**) auto-create timestamped backups in `~/.claude/backups/md_tools/`. (A `copy`/`extract` to a brand-new output file is not backed up; `line-append` is pure `O_APPEND` — no backup.) Clean up with `md_tools cleanup-backups` (keeps only the most recent backup per file).
+**Automatic backups:** Destructive operations (`insert`, `replace`, `extract`, `delete`, `reshape`, `move`, `reorder`, `subst`, `gsub`, `body-line-append`, `rename`, `convert`, and `copy`/`extract` when they **overwrite an existing output**) auto-create timestamped backups in `~/.claude/backups/md_tools/`. (A `copy`/`extract` to a brand-new output file is not backed up; `line-append` is pure `O_APPEND` — no backup.) Clean up with `md_tools cleanup-backups` (keeps only the most recent backup per file).
 
 #### Gotcha: `subst`/`gsub` are LINE-ORIENTED, and regex is the quoting escape hatch
 

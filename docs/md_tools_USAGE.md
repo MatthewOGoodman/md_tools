@@ -220,6 +220,6 @@ md_tools test                                            # built-in self-test
 
 ## Safety
 
-- **Automatic backups** before every destructive op (`extract`, `delete`, `reshape`, `move`, `subst`, `gsub`, `body-line-append`, `rename`, `convert`, and `copy`/`extract` when they **overwrite an existing output**) land in `~/.claude/backups/md_tools/`. A `copy`/`extract` to a brand-new output file is not backed up (nothing to lose); `line-append` is pure `O_APPEND` — no backup.
+- **Automatic backups** before every destructive op (`insert`, `replace`, `extract`, `delete`, `reshape`, `move`, `reorder`, `subst`, `gsub`, `body-line-append`, `rename`, `convert`, and `copy`/`extract` when they **overwrite an existing output**) land in `~/.claude/backups/md_tools/`. A `copy`/`extract` to a brand-new output file is not backed up (nothing to lose); `line-append` is pure `O_APPEND` — no backup.
 - **Concurrent-write safety** — every write verb holds an exclusive advisory `flock` on the data file's parent directory for the whole read-modify-write and commits via temp-file + `os.replace()`, so two `md_tools` processes editing the same shared file serialize (no silent lost updates) and a crash can't leave a truncated file. POSIX-only; degrades to a no-op (atomic write still applies) where `fcntl` is absent or with `MD_TOOLS_LOCK=0`.
 - **YAML frontmatter** is held opaque and byte-verbatim (it never travels with a moved section, and is never addressable by md_tools — edit a frontmatter block with `Edit`).
