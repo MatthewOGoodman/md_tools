@@ -1,0 +1,5 @@
+# Symlinks claude-wrangler's install.sh creates for this repo (target:source).
+# The md_tools command itself is NOT a symlink into this repo: it is the console
+# script `pip install -e .` writes into the claude_tools env, linked at
+# ~/.claude/md_tools by hand. Only the always-loaded reference doc is deployed here.
+~/dotfiles/home/.claude/md_refs/md_tools_SKILL.md:docs/md_tools_SKILL.md
