@@ -1853,8 +1853,9 @@ def move_sections_bare(source_file, target_file, section_paths, parent_path=None
     source_root = detect_single_root(source_tree)
     target_root = detect_single_root(target_tree)
 
-    # Prepend target root to parent_path if needed
-    parent_path = prepend_root_prefix(parent_path, target_root) if parent_path not in (None, "", "ROOT") else (target_root or "")
+    # Prepend target root to parent_path if needed. "." names the file root, the
+    # same as insert's destination and the SELECT head: the single H1, else ROOT.
+    parent_path = prepend_root_prefix(parent_path, target_root) if parent_path not in (None, "", ".", "ROOT") else (target_root or "")
 
     # Get parent node in target tree
     if parent_path in ("", "ROOT"):
@@ -3895,7 +3896,7 @@ def main():
     move_parser.add_argument('source', help='Source markdown file')
     move_parser.add_argument('section_paths', help='Section path(s) to move (:,:-separated for multiple)')
     move_parser.add_argument('--target', default=None, help='Target markdown file (must exist; default: same as source)')
-    move_parser.add_argument('--parent', default=None, help='New parent section path (default: root)')
+    move_parser.add_argument('--parent', default=None, help="New parent section path (default, or \".\": the file's single H1, else root)")
     move_parser.add_argument('--after-sibling', default=None,
         help='Sibling marker (default: append to end, "^" = first position, name = after that sibling)')
     move_parser.add_argument('--flatten', action='store_true',

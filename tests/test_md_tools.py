@@ -2293,6 +2293,21 @@ class TestEmitPlacement:
         assert tree.find_node_by_path(
             "STATUS:/:4. Deliverables and Deadlines:/:5. Blockers") is not None
 
+    def test_move_parent_dot_is_the_h1(self, tmp_path):
+        f = tmp_path / "s.md"
+        f.write_text("# Doc\n\n## A\n\n### Nested\n\nbody.\n\n## B\n\nb.\n")
+        subprocess.run([*MD_TOOLS, "move", str(f), "Nested", "--parent", "."], check=True)
+        tree = MarkdownTree(); tree.parse(f.read_text())
+        assert [c.title for c in tree.root.children[0].children] == ["A", "B", "Nested"]
+        assert tree.find_node_by_path("Doc:/:A").children == []
+
+    def test_reorder_parent_dot_is_the_h1(self, tmp_path):
+        f = tmp_path / "s.md"
+        f.write_text("# Doc\n\n## A\n\na.\n\n## B\n\nb.\n")
+        subprocess.run([*MD_TOOLS, "reorder", str(f), "B:,:A", "--parent", "."], check=True)
+        tree = MarkdownTree(); tree.parse(f.read_text())
+        assert [c.title for c in tree.root.children[0].children] == ["B", "A"]
+
     def test_multi_node_extract_via_children(self, tmp_path):
         src = tmp_path / "src.md"
         src.write_text(CANON_STATUS_PATH.read_text())
